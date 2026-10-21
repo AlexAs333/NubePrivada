@@ -2,6 +2,7 @@ const Usuario = require('./usuario');
 const Carpeta = require('./carpeta');
 const Fichero = require('./fichero');
 const Etiqueta = require('./etiqueta');
+const sequelize = require('../config/database');
 
 // Relación N:N Usuario - Carpeta
 // Se crea tabla 'usuario_carpeta' con columnas 'id_user' e 'id_carpeta'
@@ -51,5 +52,6 @@ module.exports = {
     Usuario,
     Carpeta,
     Fichero,
-    Etiqueta
+    Etiqueta,
+    sequelize
 };
