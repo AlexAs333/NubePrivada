@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: usuario_nube
+      POSTGRES_PASSWORD: password_segura
+      POSTGRES_DB: nube_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    container_name: node_api
+    restart: always
+    environment:
+      DB_HOST: db
+      DB_USER: usuario_nube
+      DB_PASSWORD: password_segura
+      DB_NAME: nube_db
+      PORT: 3000
+    depends_on:
+      - db
+    volumes:
+      - ./backend/uploads:/usr/src/app/uploads
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build: ./frontend
+    container_name: react_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
